@@ -194,9 +194,6 @@ export const ai_adonisHandler = async (req: Request, res: Response) => {
 const UPLOAD_DIR = path.join(__dirname, '..', '..', 'public', 'uploads');
 
 export const promptToImage = async (req: Request, res: Response) => {
-  res.setHeader('Access-Control-Allow-Origin', '*'); // Or specify the allowed origin
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   try {
     
     // Clean the public folder at the start, keeping important files
