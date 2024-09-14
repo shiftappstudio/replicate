@@ -19,6 +19,9 @@ import { FirebaseRoutes } from "./routes/firebase.routes";
 const app = express();
 app.use(cors({ origin: true }));
 
+// Serve static files from the 'public' directory in the root
+app.use(express.static(path.join(__dirname, '..', 'public')));
+
 app.use(bodyParser.json());
 
 // !
@@ -110,7 +113,7 @@ app.get("/download", async (req: Request, res: Response) => {
   }
 });
 //
-app.use("/api/images", express.static(path.join(__dirname, "images")));
+//app.use("/api/images", express.static(path.join(__dirname, "images")));
 //
 app.put("/api/turf-visualizer/prompt", (req: Request, res: Response) => {
   const [prompt, negative_prompt] = [req.body.prompt, req.body.negativePrompt];
