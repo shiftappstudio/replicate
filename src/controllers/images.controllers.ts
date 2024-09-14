@@ -7,6 +7,7 @@ import {
   getFilePath,
 } from "../helpers/file.helper";
 import fs from "fs/promises";
+import * as fsSync from "fs"; 
 import path from 'path';
 import { v4 as uuidv4 } from 'uuid';
 import sharp from "sharp";
@@ -193,10 +194,13 @@ export const ai_adonisHandler = async (req: Request, res: Response) => {
 const UPLOAD_DIR = path.join(__dirname, '..', '..', 'public', 'uploads');
 
 export const promptToImage = async (req: Request, res: Response) => {
+  res.setHeader('Access-Control-Allow-Origin', '*'); // Or specify the allowed origin
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   try {
     
     // Clean the public folder at the start, keeping important files
-    cleanPublicFolder('../../public/uploads'); 
+    cleanPublicFolder('../../public/uploads', ['Logo-Luxxio-wit-.png']); 
     console.log(req.body);
     const [prompt, width, height, numOutputs, numInferenceSteps] = [
       req.body.prompt,
@@ -228,15 +232,13 @@ export const promptToImage = async (req: Request, res: Response) => {
       throw new Error('Unexpected output format from Replicate API');
     }
 // Download the watermark image
-const watermarkResponse = await axios.get("https://luxxio.nl/wp-content/uploads/2024/01/Logo-Luxxio-wit-.png", { responseType: 'arraybuffer' });
-const watermarkBuffer = Buffer.from(watermarkResponse.data);
+const watermarkBuffer = fsSync.readFileSync(path.join(__dirname,'..','..', 'public', 'uploads', 'Logo-Luxxio-wit-.png'));
 
 // Process each generated image
 const watermarkedImageUrls = await Promise.all(output.map(async (imageUrl: string) => {
   // Download the generated image
   const response = await axios.get(imageUrl, { responseType: 'arraybuffer' });
   const imageBuffer = Buffer.from(response.data);
-
   // Get dimensions of the main image
   const mainImage = sharp(imageBuffer);
   const { width, height } = await mainImage.metadata();
