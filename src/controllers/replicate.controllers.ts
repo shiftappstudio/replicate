@@ -1,5 +1,4 @@
 import {
-  generateImageForPrintable,
   resizeImage,
 } from "./../helpers/image.helper";
 import { Request, Response } from "express";
@@ -363,7 +362,6 @@ export const realEsrganHandler = async (req: Request, res: Response) => {
     console.log("processing");
     const [image, scale] = [req.body.image, req.body.scale];
     const framedFilename = generateRandomString(10) + ".png";
-    await generateImageForPrintable(image, framedFilename);
     const imageUrl = await uploadFileToFirebase(framedFilename, "printable");
     deleteImage(framedFilename);
     console.log(imageUrl);
