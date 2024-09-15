@@ -1,25 +1,13 @@
 import { Request, Response } from "express";
 import { replicate } from "../configs/replicate.config";
 import { cleanPublicFolder } from "../helpers/clean.helper";
-import {
-  convertDataToImage,
-  deleteImage,
-  getFilePath,
-} from "../helpers/file.helper";
 import fs from "fs/promises";
 import * as fsSync from "fs"; 
 import path from 'path';
 import { v4 as uuidv4 } from 'uuid';
 import sharp from "sharp";
 import axios from "axios";
-import {
-  getDocument,
-  saveFileFromFirebase,
-  uploadFileToFirebase,
-} from "../services/firebase.service";
-import { firebaseProcess } from "../services/turfVisualizer.service";
-import { fb_tufVisualizerInstance } from "../configs/fb.turfVisualizer.config";
-import { ProcessTimer } from "../helpers/process.helper";
+
 export const lucataco_sdxl_handler = async (req: Request, res: Response) => {
   try {
     console.log("processing");
@@ -195,7 +183,6 @@ const UPLOAD_DIR = path.join(__dirname, '..', '..', 'public', 'uploads');
 
 export const promptToImage = async (req: Request, res: Response) => {
   try {
-    
     // Clean the public folder at the start, keeping important files
     cleanPublicFolder('../../public/uploads', ['Logo-Luxxio-wit-.png']); 
     console.log(req.body);
