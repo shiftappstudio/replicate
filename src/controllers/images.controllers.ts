@@ -184,7 +184,7 @@ const UPLOAD_DIR = path.join(__dirname, '..', '..', 'public', 'uploads');
 export const promptToImage = async (req: Request, res: Response) => {
   try {
     // Clean the public folder at the start, keeping important files
-    cleanPublicFolder('../../public/uploads', ['Logo-Luxxio-wit-.png']); 
+    cleanPublicFolder('../../public/uploads', ['Logo-Luxxio-wit.png']); 
     console.log(req.body);
     const [prompt, width, height, numOutputs, numInferenceSteps] = [
       req.body.prompt,
@@ -216,7 +216,7 @@ export const promptToImage = async (req: Request, res: Response) => {
       throw new Error('Unexpected output format from Replicate API');
     }
 // Download the watermark image
-const watermarkBuffer = fsSync.readFileSync(path.join(__dirname,'..','..', 'public', 'uploads', 'Logo-Luxxio-wit-.png'));
+const watermarkBuffer = fsSync.readFileSync(path.join(__dirname,'..','..', 'public', 'uploads', 'Logo-Luxxio-wit.png'));
 
 // Process each generated image
 const watermarkedImageUrls = await Promise.all(output.map(async (imageUrl: string) => {

@@ -2,8 +2,6 @@ import expressListRoutes from "express-list-routes";
 import { app } from "./app";
 import http from "http";
 import { Server } from "socket.io";
-import { generateImageForPrintable } from "./helpers/image.helper";
-import { generateRandomString } from "./helpers/file.helper";
 const port = process.env.PORT || 3000;
 
 const server = http.createServer(app);
