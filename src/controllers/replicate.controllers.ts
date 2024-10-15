@@ -361,8 +361,9 @@ export const realEsrganHandler = async (req: Request, res: Response) => {
   try {
     console.log("processing");
     const [image, scale] = [req.body.image, req.body.scale];
+    console.log("Image:", image)
     const framedFilename = generateRandomString(10) + ".png";
-    const imageUrl = await uploadFileToFirebase(framedFilename, "printable");
+    const imageUrl = await uploadFileToFirebase(image, "printable");
     deleteImage(framedFilename);
     console.log(imageUrl);
     // const output = await replicate.run(

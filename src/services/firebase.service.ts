@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { fb_fileServerInstance as admin } from "./../configs/fb.fileServer.config";
-const tempDirectory = path.resolve(__dirname, "../tmp/");
+const publicDirectory = path.resolve(__dirname, "../../public/uploads/");
 
 export const uploadFileToFirebase = async (
   filename: string,
@@ -10,7 +10,8 @@ export const uploadFileToFirebase = async (
 ) => {
   const bucket = firebaseInstance.storage().bucket();
   try {
-    await bucket.upload(path.resolve(tempDirectory, filename), {
+    console.log("Filename: ",filename);
+    await bucket.upload(path.resolve(publicDirectory, filename), {
       destination: folder + "/" + filename,
     });
   } catch (error) {
@@ -27,12 +28,12 @@ export const saveFileFromFirebase = async (
   folder: string = "files",
   firebaseInstance = admin
 ) => {
-  if (!fs.existsSync(tempDirectory)) {
-    fs.mkdirSync(tempDirectory, { recursive: true });
+  if (!fs.existsSync(publicDirectory)) {
+    fs.mkdirSync(publicDirectory, { recursive: true });
   }
   const bucket = firebaseInstance.storage().bucket();
   const file = bucket.file(folder + filename);
-  const destination = path.resolve(tempDirectory + "/" + filename);
+  const destination = path.resolve(publicDirectory + "/" + filename);
   await file.download({ destination });
 };
 export const deleteFile = async (
