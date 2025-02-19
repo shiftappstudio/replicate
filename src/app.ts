@@ -19,7 +19,7 @@ import { FirebaseRoutes } from "./routes/firebase.routes";
 const app = express();
 app.use(cors({ origin: true }));
 
-// Serve static files from the 'public' directory in the root
+// Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
 app.use(bodyParser.json());
